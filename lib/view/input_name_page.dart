@@ -34,20 +34,40 @@ class _InputNameFormState extends State<InputNameForm> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
-        body: Column(children: [
-          const Image(image: AssetImage('kv-deer.png')),
-          nameInputWidget(),
+        body: 
+        Column(children: [
+         Stack(children: [
+           const Image(image: AssetImage('3.0x/kv-deer.png')),
+           Column(children: [
+            Container(height: 350.0),
+            nameInputWidget(),
+           ],)
+           
+        ],),
           sendButton()
-        ]));
+        ])
+        
+        );
   }
 
+  Container deerImageView() {
+    return Container(
+      child: const Image(image: AssetImage('kv-deer.png'),
+      fit: BoxFit.fill),
+    );
+  }
+
+
   Widget nameInputWidget() {
-    return ClipRRect(
+    return Padding(
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+      child: ClipRRect(
       borderRadius: BorderRadius.circular(40.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.3,
         child: buildForm(),
         color: Colors.white.withOpacity(0.9),
+        ),
       ),
     );
   }
@@ -58,9 +78,6 @@ class _InputNameFormState extends State<InputNameForm> {
         child: Padding(
           padding: const EdgeInsets.all(50.0),
           child:
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: <Widget>[
               TextFormField(
                   style: const TextStyle(fontSize: 40.0),
                   controller: nameFormController,
@@ -74,19 +91,6 @@ class _InputNameFormState extends State<InputNameForm> {
                     }
                     return null;
                   }),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-          //   child: ElevatedButton(
-          //     onPressed: () {
-          //       if (_formKey.currentState!.validate()) {
-          //         // Process data.
-          //       }
-          //     },
-          //     child: const Text('送出暱稱'),
-          //   ),
-          // ),
-          //   ],
-          // ),
         ));
   }
 
