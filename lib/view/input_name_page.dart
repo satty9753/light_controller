@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:light_controller/view/light_page.dart';
 
 class InputNamePage extends StatelessWidget {
   @override
@@ -36,13 +37,14 @@ class _InputNameFormState extends State<InputNameForm> {
         ),
         body: 
         Column(children: [
-         Stack(children: [
-           const Image(image: AssetImage('3.0x/kv-deer.png')),
+          const Image(image: AssetImage('2.0x/kv-techCon.png')),
+          const Image(image: AssetImage('2.0x/kv-beatol.png')),
+          Stack(children: [
+           deerImageView(),
            Column(children: [
-            Container(height: 350.0),
+            Container(height: 300.0),
             nameInputWidget(),
            ],)
-           
         ],),
           sendButton()
         ])
@@ -52,7 +54,8 @@ class _InputNameFormState extends State<InputNameForm> {
 
   Container deerImageView() {
     return Container(
-      child: const Image(image: AssetImage('kv-deer.png'),
+      alignment: Alignment.center,
+      child: const Image(image: AssetImage('2.0x/kv-deer.png'),
       fit: BoxFit.fill),
     );
   }
@@ -64,7 +67,7 @@ class _InputNameFormState extends State<InputNameForm> {
       child: ClipRRect(
       borderRadius: BorderRadius.circular(40.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: 250.0,
         child: buildForm(),
         color: Colors.white.withOpacity(0.9),
         ),
@@ -109,6 +112,11 @@ class _InputNameFormState extends State<InputNameForm> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             // Process data.
+              setState(() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return MainPage();
+        }));
+      });
           }
         },
         child: const Text('送出暱稱'),
