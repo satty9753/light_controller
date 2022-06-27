@@ -34,45 +34,54 @@ class _InputNameFormState extends State<InputNameForm> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          elevation: 0,
         ),
-        body: 
-        Column(children: [
-          const Image(image: AssetImage('2.0x/kv-techCon.png')),
-          const Image(image: AssetImage('2.0x/kv-beatol.png')),
-          Stack(children: [
-           deerImageView(),
-           Column(children: [
-            Container(height: 300.0),
-            nameInputWidget(),
-           ],)
-        ],),
-          sendButton()
-        ])
-        
-        );
+        body: Stack(children: [
+          Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/3.0x/kv-bg.png"),
+                    fit: BoxFit.cover)),
+          ),
+          Column(children: [
+            const Image(image: AssetImage('2.0x/kv-techCon.png')),
+            const Image(image: AssetImage('2.0x/kv-beatol.png')),
+            Stack(
+              children: [
+                deerImageView(),
+                Column(
+                  children: [
+                    Container(height: 300.0),
+                    nameInputWidget(),
+                  ],
+                )
+              ],
+            ),
+            sendButton()
+          ])
+        ]));
   }
 
   Container deerImageView() {
     return Container(
       alignment: Alignment.center,
-      child: const Image(image: AssetImage('2.0x/kv-deer.png'),
-      fit: BoxFit.fill),
+      child:
+          const Image(image: AssetImage('2.0x/kv-deer.png'), fit: BoxFit.fill),
     );
   }
 
-
   Widget nameInputWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-      child: ClipRRect(
-      borderRadius: BorderRadius.circular(40.0),
-      child: Container(
-        height: 250.0,
-        child: buildForm(),
-        color: Colors.white.withOpacity(0.9),
-        ),
-      ),
-    );
+  return Container(
+    constraints: const BoxConstraints(maxWidth: 640.0),
+    padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+    child: ClipRRect(
+    borderRadius: BorderRadius.circular(40.0),
+    child: Container(
+    height: 250.0,
+    child: buildForm(),
+    color: Colors.white.withOpacity(0.9),
+    ),
+   ),);
   }
 
   Form buildForm() {
@@ -80,25 +89,25 @@ class _InputNameFormState extends State<InputNameForm> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(50.0),
-          child:
-              TextFormField(
-                  style: const TextStyle(fontSize: 40.0),
-                  controller: nameFormController,
-                  autocorrect: false,
-                  decoration: const InputDecoration(
-                    hintText: '請輸入你的暱稱',
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return '欄位不可空白';
-                    }
-                    return null;
-                  }),
+          child: TextFormField(
+              style: const TextStyle(fontSize: 40.0),
+              controller: nameFormController,
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: '請輸入你的暱稱',
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return '欄位不可空白';
+                }
+                return null;
+              }),
         ));
   }
 
   Container sendButton() {
     return Container(
+      constraints: const BoxConstraints(maxWidth: 640.0),
       width: double.infinity,
       height: 80.0,
       padding: const EdgeInsets.only(left: 30.0, right: 30.0),
@@ -112,11 +121,12 @@ class _InputNameFormState extends State<InputNameForm> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             // Process data.
-              setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return MainPage();
-        }));
-      });
+            setState(() {
+              String username = nameFormController.text;
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return LightSwitchPage(username: username);
+              }));
+            });
           }
         },
         child: const Text('送出暱稱'),

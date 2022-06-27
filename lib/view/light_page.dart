@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: LightSwitchPage());
-  }
-}
-
 class LightSwitchPage extends StatefulWidget {
-  const LightSwitchPage({Key? key}) : super(key: key);
+  final String username;
+  const LightSwitchPage({Key? key, required this.username}) : super(key: key);
   @override
   State<LightSwitchPage> createState() => _LightSwitchState();
 }
@@ -24,29 +18,46 @@ class _LightSwitchState extends State<LightSwitchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
-      body: Column(
-        children: [
-          const Padding(padding: EdgeInsets.all(16.0),
-          child:           
-          Align(
-            child: Text("hi 你好嗎", style: TextStyle(fontSize: 30)),
-            alignment: Alignment.centerLeft,)),
-          Image.asset(isLightOn
-              ? 'assets/2.0x/light-on.png'
-              : 'assets/2.0x/light-off.png'),
-          sendButton(),
-          const SizedBox(height: 30.0),
-          recordList()
-        ],
-      ),
-    );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/3.0x/kv-bg.png"),
+                      fit: BoxFit.cover)),
+            ),
+            Column(
+              children: [
+                usernameView(widget.username),
+                Image.asset(isLightOn
+                    ? 'assets/2.0x/light-on.png'
+                    : 'assets/2.0x/light-off.png'),
+                sendButton(),
+                const SizedBox(height: 30.0),
+                recordList()
+              ],
+            )
+          ],
+        ));
+  }
+
+  Padding usernameView(String name) {
+    return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Align(
+          child: Text("Hi $name ~",
+              style: const TextStyle(fontSize: 30, color: Colors.white)),
+          alignment: Alignment.centerLeft,
+        ));
   }
 
   Widget recordList() {
-    return Padding(
+    return Container(
+        constraints: const BoxConstraints(maxWidth: 640.0),
         padding: const EdgeInsets.only(left: 30.0, right: 30.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40.0),
@@ -65,12 +76,16 @@ class _LightSwitchState extends State<LightSwitchPage> {
     return ListView.builder(
         itemCount: records.length,
         itemBuilder: (context, index) {
-          return Text(records[index]);
+          return Text(
+            records[index],
+            style: const TextStyle(fontSize: 18.0),
+          );
         });
   }
 
   Container sendButton() {
     return Container(
+      constraints: const BoxConstraints(maxWidth: 640.0),
       width: double.infinity,
       height: 80.0,
       padding: const EdgeInsets.only(left: 30.0, right: 30.0),
