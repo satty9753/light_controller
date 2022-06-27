@@ -30,7 +30,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
                       image: AssetImage("assets/3.0x/kv-bg.png"),
                       fit: BoxFit.cover)),
             ),
-            Column(
+            Center(child: Column(
               children: [
                 usernameView(widget.username),
                 Image.asset(isLightOn
@@ -40,24 +40,28 @@ class _LightSwitchState extends State<LightSwitchPage> {
                 const SizedBox(height: 30.0),
                 recordList()
               ],
-            )
+            ),)
+
           ],
         ));
   }
 
-  Padding usernameView(String name) {
-    return Padding(
+ Widget usernameView(String name) {
+    return Container(
+        constraints: const BoxConstraints(maxWidth: 640.0),
         padding: const EdgeInsets.all(16.0),
         child: Align(
           child: Text("Hi $name ~",
               style: const TextStyle(fontSize: 30, color: Colors.white)),
           alignment: Alignment.centerLeft,
-        ));
+        )
+        );
   }
 
   Widget recordList() {
     return Container(
         constraints: const BoxConstraints(maxWidth: 640.0),
+        alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 30.0, right: 30.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40.0),
