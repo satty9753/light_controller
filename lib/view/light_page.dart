@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:light_controller/api/socketManager.dart';
 
 class LightSwitchPage extends StatefulWidget {
   final String username;
@@ -13,6 +14,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
   @override
   void initState() {
     super.initState();
+     SocketManager.shared().tryConnect(widget.username);
   }
 
   @override
@@ -35,7 +37,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
                 usernameView(widget.username),
                 Image.asset(isLightOn
                     ? 'assets/2.0x/light-on.png'
-                    : 'assets/2.0x/light-off.png'),
+                    : 'assets/2.0x/light-off.png', filterQuality: FilterQuality.high),
                 sendButton(),
                 const SizedBox(height: 30.0),
                 recordList()
@@ -103,6 +105,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
         onPressed: () {
           setState(() {
             isLightOn = !isLightOn;
+            isLightOn ? SocketManager.shared().turnOffLight() : SocketManager.shared().turnOnLight();
           });
         },
         child: isLightOn ? const Text('我要關燈') : const Text('我要開燈'),

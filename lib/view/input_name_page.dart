@@ -44,8 +44,8 @@ class _InputNameFormState extends State<InputNameForm> {
                     fit: BoxFit.cover)),
           ),
           Column(children: [
-            const Image(image: AssetImage('2.0x/kv-techCon.png')),
-            const Image(image: AssetImage('2.0x/kv-beatol.png')),
+            const Image(image: AssetImage('2.0x/kv-techCon.png'), filterQuality: FilterQuality.high),
+            const Image(image: AssetImage('2.0x/kv-beatol.png'), filterQuality: FilterQuality.high),
             Stack(
               children: [
                 deerImageView(),
@@ -66,7 +66,7 @@ class _InputNameFormState extends State<InputNameForm> {
     return Container(
       alignment: Alignment.center,
       child:
-          const Image(image: AssetImage('2.0x/kv-deer.png'), fit: BoxFit.fill),
+          const Image(image: AssetImage('2.0x/kv-deer.png',), fit: BoxFit.fill, filterQuality: FilterQuality.high),
     );
   }
 
