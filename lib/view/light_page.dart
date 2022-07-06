@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:light_controller/api/socketManager.dart';
+import 'package:light_controller/api/socket_manager.dart';
 
 class LightSwitchPage extends StatefulWidget {
   final String username;
@@ -7,14 +7,15 @@ class LightSwitchPage extends StatefulWidget {
   @override
   State<LightSwitchPage> createState() => _LightSwitchState();
 }
-
+ 
 class _LightSwitchState extends State<LightSwitchPage> {
   bool isLightOn = false;
+  bool isButtonEnabled = true;
   var records = <String>["faketext"];
   @override
   void initState() {
     super.initState();
-     SocketManager.shared().tryConnect(widget.username);
+     SocketManager.shared().tryConnect(widget.username, onConnect, errorHandler);
   }
 
   @override
@@ -102,14 +103,40 @@ class _LightSwitchState extends State<LightSwitchPage> {
                 MaterialStateProperty.all(const TextStyle(fontSize: 20.0)),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)))),
-        onPressed: () {
-          setState(() {
-            isLightOn = !isLightOn;
-            isLightOn ? SocketManager.shared().turnOffLight() : SocketManager.shared().turnOnLight();
-          });
-        },
+        onPressed: isButtonEnabled ? onTap : null,
         child: isLightOn ? const Text('我要關燈') : const Text('我要開燈'),
       ),
     );
+  }
+
+  void onTap() {
+          setState(() {
+            isLightOn = !isLightOn;
+            //isLightOn ? SocketManager.shared().turnOffLight() : SocketManager.shared().turnOnLight();
+          });
+  }
+
+  void onConnect() {
+    setState(() {
+      isButtonEnabled = true;
+    });
+  }
+
+  void errorHandler() {
+      // showDialog(
+      //     context: context,
+      //     builder: (BuildContext context) => AlertDialog(
+      //           content: const Text("Can't connect to server."),
+      //           actions: [
+      //             TextButton(
+      //                 onPressed: () => {},
+      //                 child: const Text('OK'))
+      //           ],
+      //         ));
+      setState(() {
+         records = ['connecting...'];
+         isButtonEnabled = false;
+      });
+     
   }
 }
