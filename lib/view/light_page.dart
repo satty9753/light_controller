@@ -11,11 +11,18 @@ class LightSwitchPage extends StatefulWidget {
 class _LightSwitchState extends State<LightSwitchPage> {
   bool isLightOn = false;
   bool isButtonEnabled = true;
-  var records = <String>["faketext"];
+  ScrollController scrollController = ScrollController();
+  var records = <String>[""];
   @override
   void initState() {
     super.initState();
-     SocketManager.shared().tryConnect(widget.username, onConnect, errorHandler);
+    SocketManager().tryConnect(widget.username, onConnect, errorHandler, onRecord);
+  }
+
+    @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -71,7 +78,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
           child: Container(
             height: 250.0,
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
               child: recordListView(),
             ),
             color: Colors.white.withOpacity(0.9),
@@ -79,8 +86,10 @@ class _LightSwitchState extends State<LightSwitchPage> {
         ));
   }
 
+
   ListView recordListView() {
     return ListView.builder(
+        controller: scrollController,
         itemCount: records.length,
         itemBuilder: (context, index) {
           return Text(
@@ -110,15 +119,17 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onTap() {
-          setState(() {
-            isLightOn = !isLightOn;
-            //isLightOn ? SocketManager.shared().turnOffLight() : SocketManager.shared().turnOnLight();
-          });
+          // setState(() {
+          //   isLightOn = !isLightOn;
+          //   isLightOn ? SocketManager.shared().turnOffLight() : SocketManager.shared().turnOnLight();
+          // });
+    isLightOn ? SocketManager().turnOffLight() : SocketManager().turnOnLight();
   }
 
   void onConnect() {
     setState(() {
       isButtonEnabled = true;
+      records = [];
     });
   }
 
@@ -138,5 +149,29 @@ class _LightSwitchState extends State<LightSwitchPage> {
          isButtonEnabled = false;
       });
      
+  }
+
+  void onRecord(message, lightOn) {
+    records.add(message);
+    isLightOn = lightOn;
+    if(this.mounted) {
+      setState(() {
+      if(scrollController.position.maxScrollExtent > 0) {
+        //scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
+        Future.delayed(
+  Duration(milliseconds: 200),
+  () {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.ease,
+    );
+  },
+);
+      
+      }
+      
+    });
+    }
   }
 }

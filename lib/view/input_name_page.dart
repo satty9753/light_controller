@@ -100,6 +100,10 @@ class _InputNameFormState extends State<InputNameForm> {
                 if (value == null || value.isEmpty) {
                   return '欄位不可空白';
                 }
+                if (value.length > 10) {
+                  return '暱稱不可超過10個字';
+                }
+
                 return null;
               }),
         ));
