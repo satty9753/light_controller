@@ -126,20 +126,29 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onConnect() {
-    SocketManager().getLightStatus();
-    setState(() {
-      isButtonEnabled = true;
-      records = [];
-      final scaffold = ScaffoldMessenger.of(context);
-      scaffold.hideCurrentSnackBar();
+    if(mounted) {
+      SocketManager().getLightStatus();
+      setState(() {
+        isButtonEnabled = true;
+        records = [];
+        final scaffold = ScaffoldMessenger.of(context);
+        scaffold.hideCurrentSnackBar();
+        showToast('connected');
+         Future.delayed(
+            const Duration(milliseconds: 1000),
+            () {
+              scaffold.hideCurrentSnackBar();
+            });
     });
+    }
+
   }
 
   void errorHandler() {
     if (this.mounted) {
     setState(() {
       isButtonEnabled = false;
-      showErrorToast('connecting...');
+      showToast('connecting...');
     });
     }
   }
@@ -176,7 +185,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
     scaffold.hideCurrentSnackBar();
     scaffold.showSnackBar(
     SnackBar(
-        content: const Text('連線已中斷'),
+        content: const Text('disconnected'),
         action: SnackBarAction(label: 'connect', onPressed: (){
         SocketManager()
         .tryConnect(widget.username, onConnect, errorHandler, onRecord, onDisconnect);
@@ -186,7 +195,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
      }
   }
 
-  void showErrorToast(String message) {
+  void showToast(String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
     SnackBar(
