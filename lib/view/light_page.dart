@@ -126,6 +126,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onConnect() {
+    SocketManager().getLightStatus();
     setState(() {
       isButtonEnabled = true;
       records = [];
@@ -135,14 +136,20 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void errorHandler() {
+    if (this.mounted) {
     setState(() {
       isButtonEnabled = false;
       showErrorToast('connecting...');
     });
+    }
   }
 
   void onRecord(message, lightOn) {
-    records.add(message);
+    if (message != null) { 
+      if (message.length > 0) {
+        records.add(message);
+      }
+    }
     isLightOn = lightOn;
     if (this.mounted) {
       setState(() {
@@ -164,9 +171,10 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onDisconnect() {
+     if (this.mounted) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.hideCurrentSnackBar();
-     scaffold.showSnackBar(
+    scaffold.showSnackBar(
     SnackBar(
         content: const Text('連線已中斷'),
         action: SnackBarAction(label: 'connect', onPressed: (){
@@ -175,7 +183,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
         }),
       ),
     );
-
+     }
   }
 
   void showErrorToast(String message) {

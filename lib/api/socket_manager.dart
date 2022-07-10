@@ -70,4 +70,8 @@ class SocketManager {
     var data = {"username": username, "lightOn":false};
     socket.emit('light', data);
   }
+
+  getLightStatus() {
+    socket.emit('lightStatus', {});
+  }
 }
