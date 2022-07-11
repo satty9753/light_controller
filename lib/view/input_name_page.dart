@@ -43,7 +43,7 @@ class _InputNameFormState extends State<InputNameForm> {
                     image: AssetImage("assets/3.0x/kv-bg.png"),
                     fit: BoxFit.cover)),
           ),
-          Column(children: [
+          SingleChildScrollView(child: Column(children: [
             const Image(image: AssetImage('2.0x/kv-techCon.png'), filterQuality: FilterQuality.high),
             const Image(image: AssetImage('2.0x/kv-beatol.png'), filterQuality: FilterQuality.high),
             Stack(
@@ -58,7 +58,8 @@ class _InputNameFormState extends State<InputNameForm> {
               ],
             ),
             sendButton()
-          ])
+          ]),)
+
         ]));
   }
 

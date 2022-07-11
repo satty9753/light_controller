@@ -41,7 +41,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
                       image: AssetImage("assets/3.0x/kv-bg.png"),
                       fit: BoxFit.cover)),
             ),
-            Center(
+            SingleChildScrollView(child: Center(
               child: Column(
                 children: [
                   usernameView(widget.username),
@@ -55,7 +55,8 @@ class _LightSwitchState extends State<LightSwitchPage> {
                   recordList()
                 ],
               ),
-            )
+            ))
+
           ],
         ));
   }
