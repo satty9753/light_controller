@@ -146,7 +146,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void errorHandler() {
-    if (this.mounted) {
+    if (mounted) {
     setState(() {
       isButtonEnabled = false;
       showToast('connecting...');
@@ -161,7 +161,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
       }
     }
     isLightOn = lightOn;
-    if (this.mounted) {
+    if (mounted) {
       setState(() {
         if (scrollController.position.maxScrollExtent > 0) {
           //scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
@@ -181,13 +181,13 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onDisconnect() {
-     if (this.mounted) {
+     if (mounted) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.hideCurrentSnackBar();
     scaffold.showSnackBar(
     SnackBar(
         content: const Text('disconnected'),
-        action: SnackBarAction(label: 'connect', onPressed: (){
+        action: SnackBarAction(textColor: Colors.white, label: 'retry', onPressed: (){
         SocketManager()
         .tryConnect(widget.username, onConnect, errorHandler, onRecord, onDisconnect);
         }),
