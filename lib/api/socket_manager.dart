@@ -9,6 +9,7 @@ class SocketManager {
   late VoidCallback onConnect;
   late Function onRecord;
   late VoidCallback onDisconnect;
+  late VoidCallback onConnecting;
 
   SocketManager._privateConstructor();
 
@@ -18,12 +19,13 @@ class SocketManager {
     return _instance;
   }
 
-  tryConnect(String username, VoidCallback connectHandler, VoidCallback handler, Function recordHandler, VoidCallback disconnectHandler) {
+  tryConnect(String username, VoidCallback connectHandler, VoidCallback handler, Function recordHandler, VoidCallback disconnectHandler, VoidCallback connectingHandler) {
     SocketManager().username = username;
     SocketManager().onConnect = connectHandler;
     SocketManager().errorHandler = handler;
     SocketManager().onRecord = recordHandler;
     SocketManager().onDisconnect = disconnectHandler;
+    SocketManager().onConnecting = connectingHandler;
     if (!isOnConnect) {
       setup();
     }
@@ -43,6 +45,11 @@ class SocketManager {
       var message = data['message'];
       var lightOn = data['lightOn'];
       onRecord(message, lightOn);
+    });
+
+    socket.onConnecting((data) {
+      print(data);
+      onConnecting();
     });
 
     socket.onConnectError((data) {

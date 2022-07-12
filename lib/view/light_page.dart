@@ -16,8 +16,11 @@ class _LightSwitchState extends State<LightSwitchPage> {
   @override
   void initState() {
     super.initState();
-    SocketManager()
-        .tryConnect(widget.username, onConnect, errorHandler, onRecord, onDisconnect);
+    SocketManager().tryConnect(widget.username, onConnect, errorHandler,
+        onRecord, onDisconnect, onConnecting);
+    Future.delayed(const Duration(milliseconds: 0), () {
+      showToast("connecting...");
+    });
   }
 
   @override
@@ -41,7 +44,8 @@ class _LightSwitchState extends State<LightSwitchPage> {
                       image: AssetImage("assets/3.0x/kv-bg.png"),
                       fit: BoxFit.cover)),
             ),
-            SingleChildScrollView(child: Center(
+            SingleChildScrollView(
+                child: Center(
               child: Column(
                 children: [
                   usernameView(widget.username),
@@ -56,7 +60,6 @@ class _LightSwitchState extends State<LightSwitchPage> {
                 ],
               ),
             ))
-
           ],
         ));
   }
@@ -127,7 +130,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
   }
 
   void onConnect() {
-    if(mounted) {
+    if (mounted) {
       SocketManager().getLightStatus();
       setState(() {
         isButtonEnabled = true;
@@ -135,36 +138,34 @@ class _LightSwitchState extends State<LightSwitchPage> {
         final scaffold = ScaffoldMessenger.of(context);
         scaffold.hideCurrentSnackBar();
         showToast('connected');
-         Future.delayed(
-            const Duration(milliseconds: 1000),
-            () {
-              scaffold.hideCurrentSnackBar();
-            });
-    });
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          scaffold.hideCurrentSnackBar();
+        });
+      });
     }
-
   }
 
   void errorHandler() {
     if (mounted) {
-    setState(() {
-      isButtonEnabled = false;
-      showToast('connecting...');
-    });
+      setState(() {
+        isButtonEnabled = false;
+        showToast('connecting...');
+      });
     }
   }
 
   void onRecord(message, lightOn) {
-    if (message != null) { 
+    if (message != null) {
       if (message.length > 0) {
         records.add(message);
       }
     }
     isLightOn = lightOn;
     if (mounted) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.hideCurrentSnackBar();
       setState(() {
         if (scrollController.position.maxScrollExtent > 0) {
-          //scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
           Future.delayed(
             const Duration(milliseconds: 200),
             () {
@@ -180,26 +181,28 @@ class _LightSwitchState extends State<LightSwitchPage> {
     }
   }
 
+  void onConnecting() {
+    if (mounted) {
+      setState(() {
+        isButtonEnabled = false;
+        showToast('connecting...');
+      });
+    }
+  }
+
   void onDisconnect() {
-     if (mounted) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.hideCurrentSnackBar();
-    scaffold.showSnackBar(
-    SnackBar(
-        content: const Text('disconnected'),
-        action: SnackBarAction(textColor: Colors.white, label: 'retry', onPressed: (){
-        SocketManager()
-        .tryConnect(widget.username, onConnect, errorHandler, onRecord, onDisconnect);
-        }),
-      ),
-    );
-     }
+    isButtonEnabled = false;
+    if (mounted) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.hideCurrentSnackBar();
+      showToast("disconnected");
+    }
   }
 
   void showToast(String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
-    SnackBar(
+      SnackBar(
         content: Text(message),
       ),
     );
