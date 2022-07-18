@@ -44,6 +44,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: any
   json_serializable: any
+  env_flutter: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -63,9 +64,22 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/
-    - assets/2.0x/
-    - assets/3.0x/
+    - kv-beatol.png
+    - kv-bg.png
+    - kv-deer.png
+    - kv-techCon.png
+    - light-on.png
+    - light-off.png
+    - 2.0x/
+    - 3.0x/
+    - .env
+    - .env.development
+    - .env.production
+    - .env.test
+    - .env.local
+    - .env.development.local
+    - .env.production.local
+    - .env.test.local
 
 
   # To add assets to your application, add an assets section, like this:

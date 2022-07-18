@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:env_flutter/env_flutter.dart';
 
 class SocketManager {
   late IO.Socket socket;
@@ -32,9 +33,28 @@ class SocketManager {
   }
 
   setup() {
-    socket = IO.io('http://localhost:3000', <String, dynamic>{
-      'transports': ['websocket', 'polling', 'flashsocket']
-    });
+    //var url = dotenv.env['SERVER_URL'];
+    //print('url, $url');
+    var url = 'https://satty.revocat.co';
+
+    // socket = IO.io(url, <String, dynamic>{
+    //   // 'secure': true,
+    //   // 'reconnect': true,
+    //   // 'rejectUnauthorized': false,
+    //   'transports': ['websocket', 'polling', 'flashsocket'],
+    //   'allowUpgrades': true,
+    //   //'extraHeaders' : {'Access-Control-Allow-Origin': '*',
+    //   // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE'
+    //   // }
+    //   //'transports': ['websocket', 'polling']
+    // });
+
+    socket = IO.io(url, IO.OptionBuilder()
+    .setPath('/connect/socket.io')
+    .setTransports(['websocket', 'polling'])
+    .build());
+    // socket.opts[''];
+
     socket.onConnect((_) {
       print('on connect');
       isOnConnect = true;

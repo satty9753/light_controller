@@ -40,7 +40,7 @@ class _InputNameFormState extends State<InputNameForm> {
           Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/3.0x/kv-bg.png"),
+                    image: AssetImage("3.0x/kv-bg.png"),
                     fit: BoxFit.cover)),
           ),
           SingleChildScrollView(child: Column(children: [

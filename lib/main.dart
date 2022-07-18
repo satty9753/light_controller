@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:light_controller/view/input_name_page.dart';
+import 'package:env_flutter/env_flutter.dart';
+import 'dart:io';
 
-void main() {
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+
+Future main() async{
+  await dotenv.load();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   final mainColor = const Color(0xff0c0d3f);

@@ -19,7 +19,13 @@ class _LightSwitchState extends State<LightSwitchPage> {
     SocketManager().tryConnect(widget.username, onConnect, errorHandler,
         onRecord, onDisconnect, onConnecting);
     Future.delayed(const Duration(milliseconds: 0), () {
-      showToast("connecting...");
+      if(!SocketManager().isOnConnect) {
+        isButtonEnabled = false;
+        showToast("connecting...");
+      } else {
+        isButtonEnabled = true;
+      }
+      
     });
   }
 
@@ -41,7 +47,7 @@ class _LightSwitchState extends State<LightSwitchPage> {
             Container(
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/3.0x/kv-bg.png"),
+                      image: AssetImage("3.0x/kv-bg.png"),
                       fit: BoxFit.cover)),
             ),
             SingleChildScrollView(
@@ -51,8 +57,8 @@ class _LightSwitchState extends State<LightSwitchPage> {
                   usernameView(widget.username),
                   Image.asset(
                       isLightOn
-                          ? 'assets/2.0x/light-on.png'
-                          : 'assets/2.0x/light-off.png',
+                          ? '2.0x/light-on.png'
+                          : '2.0x/light-off.png',
                       filterQuality: FilterQuality.high),
                   sendButton(),
                   const SizedBox(height: 30.0),
