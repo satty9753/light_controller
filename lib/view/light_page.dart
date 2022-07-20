@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:light_controller/api/socket_manager.dart';
+import 'dart:ui' as ui;
 
 class LightSwitchPage extends StatefulWidget {
   final String username;
@@ -55,11 +56,11 @@ class _LightSwitchState extends State<LightSwitchPage> {
               child: Column(
                 children: [
                   usernameView(widget.username),
-                  Image.asset(
-                      isLightOn
-                          ? '2.0x/light-on.png'
-                          : '2.0x/light-off.png',
-                      filterQuality: FilterQuality.high),
+                  Container(
+                  constraints: const BoxConstraints(maxHeight: 400.0, maxWidth: 640.0),
+                    padding: const EdgeInsets.all(16.0),
+                    child: HtmlElementView(viewType: 'hello-world-html'),
+                  ),
                   sendButton(),
                   const SizedBox(height: 30.0),
                   recordList()

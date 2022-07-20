@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:env_flutter/env_flutter.dart';
 
 class SocketManager {
   late IO.Socket socket;
@@ -33,27 +32,11 @@ class SocketManager {
   }
 
   setup() {
-    //var url = dotenv.env['SERVER_URL'];
-    //print('url, $url');
-    var url = 'https://satty.revocat.co';
-
-    // socket = IO.io(url, <String, dynamic>{
-    //   // 'secure': true,
-    //   // 'reconnect': true,
-    //   // 'rejectUnauthorized': false,
-    //   'transports': ['websocket', 'polling', 'flashsocket'],
-    //   'allowUpgrades': true,
-    //   //'extraHeaders' : {'Access-Control-Allow-Origin': '*',
-    //   // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE'
-    //   // }
-    //   //'transports': ['websocket', 'polling']
-    // });
-
+    var url = "https://f5dc-60-251-45-137.jp.ngrok.io";
     socket = IO.io(url, IO.OptionBuilder()
     .setPath('/connect/socket.io')
     .setTransports(['websocket', 'polling'])
     .build());
-    // socket.opts[''];
 
     socket.onConnect((_) {
       print('on connect');
