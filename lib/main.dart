@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:light_controller/view/input_name_page.dart';
-import 'package:env_flutter/env_flutter.dart';
 import 'dart:io';
+import 'dart:ui' as ui;
+import 'dart:html';
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
+  void main() {
+  ui.platformViewRegistry.registerViewFactory(
+      'hello-world-html',
+          (int viewId) => IFrameElement()
+        ..width = '640'
+        ..height = '360'
+        ..src = 'https://www.youtube.com/embed/cAmRG-GWMhM'
+        ..style.border = 'none');
 
-
-Future main() async{
-  await dotenv.load();
-  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
