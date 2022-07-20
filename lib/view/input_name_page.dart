@@ -94,8 +94,10 @@ class _InputNameFormState extends State<InputNameForm> {
               style: const TextStyle(fontSize: 40.0),
               controller: nameFormController,
               autocorrect: false,
+              maxLines: 2,
               decoration: const InputDecoration(
                 hintText: '請輸入你的暱稱',
+                hintMaxLines: 2,
               ),
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
