@@ -6,13 +6,12 @@ import 'dart:html';
 
   void main() {
   var url = "https://www.youtube.com/embed/cAmRG-GWMhM";
-
   ui.platformViewRegistry.registerViewFactory(
       'hello-world-html',
           (int viewId) => IFrameElement()
         ..width = '640'
         ..height = '360'
-        ..src = 'https://www.youtube.com/embed/_hpKVoVyeIA'
+        ..src = 'https://www.youtube.com/embed/g2WPxu7EL90'
         ..style.border = 'none');
 
   runApp(const MyApp());
